@@ -28,8 +28,14 @@ void IPPproof::init(G2 *gg_in, G1* ww_in) {
 
 // Note: gg, ww: mutable, so we just copy them.
 void IPPproof::prove(vector<G2> gg, GT P, vector<G1> ww){
+    // Sanity Check
+    if (ww.size() != gg.size())
+        throw std::invalid_argument("IPP::prove: ww and gg size mismatch");
+    if (!is_pow2(ww.size()))
+        throw std::invalid_argument("IPP::prove: size must be a power of two (and nonzero)");
+
     uint32_t n = ww.size();
-    GT l, r; Fr c, cinv; string buf;
+    GT l, r; Fr c, cinv;
     Transcript tr("IPP-C&A LAB");
     tr.absorb(P);
 

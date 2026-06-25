@@ -2,12 +2,17 @@
 #define _CORE_H
 
 #include <vector>
+#include <stdexcept>
 #include <mcl/bls12_381.hpp>
 
 using namespace std;
 using namespace mcl::bn;
 
 typedef vector<Fr> FrVec;
+
+// Helper for Sanity Check
+static inline bool is_pow2(uint32_t n) { return n != 0 && (n & (n - 1)) == 0; }
+
 
 // Inplace Batch Inversion from Montgomery Trick
 void batch_invert(FrVec &x);
@@ -39,10 +44,9 @@ struct Transcript {
     }
 };
 
-
+// Inner Pairing Proof Prover
 struct IPPproof {
     GT P;
-    GT Q;
     vector<GT> tx;
     G1 w;
     G2 g;
@@ -53,6 +57,7 @@ struct IPPproof {
     void prove(vector<G2> gg, GT P, vector<G1> ww);
 };
 
+// Inner Pairing Proof Verifier
 bool IPPverify(IPPproof *pi);
 
 #endif 
