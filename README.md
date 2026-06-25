@@ -1,1 +1,1 @@
-# IPP
+### Inner Pairing Product
